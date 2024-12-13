@@ -1,0 +1,10 @@
+<div>
+  <app-sidebar [isSidebarVisible]="isSidebarVisible" (close)="handleSidebarClose()"
+    class="absolute top-0 left-0 z-[49]"></app-sidebar>
+  <div class="pb-8 h-screen overflow-y-auto bg-gray-100 ">
+    <div class="px-5 py-2 md:ml-64 md:mr-4 md:my-3 bg-white border-1 border-gray-300 shadow-md rounded-md">
+      <app-header class="z-20" (sidebarVisibilityChange)="handlerSidebarVisibility($event)"></app-header>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
