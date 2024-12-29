@@ -4,11 +4,13 @@ import { HelloAndDateComponent } from '../../../shared/components/hello-and-date
 import axios from 'axios';
 import { CookieService } from 'ngx-cookie-service';
 import { RouterLink } from '@angular/router';
+import { AnimationItem } from 'lottie-web';
+import { LottieComponent, AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [HeaderComponent, HelloAndDateComponent, RouterLink],
+  imports: [HeaderComponent, HelloAndDateComponent, RouterLink, LottieComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -26,6 +28,14 @@ export class DashboardSuperAdminComponent implements OnInit {
   ) {
     this.apiUrl = apiUrl;
     this.token = this.cookieService.get('accessToken');
+  }
+
+  options: AnimationOptions = {
+    path: '../../../../assets/lottie/anim_sa/anim_dashboard.json',
+  };
+
+  animationCreated(animationItem: AnimationItem): void {
+    console.log(animationItem);
   }
 
   ngOnInit(): void {

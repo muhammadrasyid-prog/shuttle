@@ -6,11 +6,13 @@ import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 import { ProfileService } from '../../core/services/profile/profile.service';
+import { AnimationItem } from 'lottie-web';
+import { LottieComponent, AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LottieComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -53,6 +55,14 @@ export class LoginComponent {
     }
 
     return true;
+  }
+
+    options: AnimationOptions = {
+    path: '../../../assets/lottie/anim_sa/anim_car.json',
+  };
+
+  animationCreated(animationItem: AnimationItem): void {
+    console.log(animationItem);
   }
 
   async onLogin() {
@@ -124,4 +134,5 @@ export class LoginComponent {
   forgor() {
     alert('passwordnya 12345678 kalo ga salah');
   }
+
 }

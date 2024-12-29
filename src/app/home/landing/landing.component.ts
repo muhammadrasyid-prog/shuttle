@@ -10,5 +10,11 @@ import { RouterLink } from '@angular/router';
   styleUrl: './landing.component.css'
 })
 export class LandingComponent {
+  // isHeaderOpen : boolean = false;
+  // lastScrollY = 0;
+
+  // toggleHeader() {
+  //   this.isHeaderOpen = !this.isHeaderOpen;
+  // }
 
 }

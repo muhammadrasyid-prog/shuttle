@@ -19,6 +19,9 @@ import { DashboardParentComponent } from './content/Parent/dashboard/dashboard.c
 import { ProfileParentComponent } from './content/Parent/profile/profile.component';
 import { DashboardDriverComponent } from './content/Driver/dashboard/dashboard.component';
 import { ProfileDriverComponent } from './content/Driver/profile/profile.component';
+import { SchoolAdminDriversComponent } from './content/Admin/drivers/drivers.component';
+import { RoutesComponent } from './content/Admin/routes/routes.component';
+import { VehicleComponent } from './content/Admin/vehicle/vehicle.component';
 
 const superAdminChildrenRoutes: Route[] = [
   {
@@ -85,6 +88,21 @@ const adminChildrenRoutes: Route[] = [
     path: 'profile',
     component: ProfileAdminComponent,
     data: { breadcrumb: 'Profile' },
+  },
+  {
+    path: 'drivers',
+    component: SchoolAdminDriversComponent,
+    data: { breadcrumb: 'Drivers' },
+  },
+  {
+    path: 'routes',
+    component: RoutesComponent,
+    data: { breadcrumb: 'Routes' },
+  },
+  {
+    path: 'vehicles',
+    component: VehicleComponent,
+    data: { breadcrumb: 'Vehicles' },
   },
 ];
 

@@ -244,6 +244,7 @@ export class AdminsComponent implements OnInit {
       })
       .then((response) => {
         this.rowListAllSchoolAdmin = response.data;
+        console.log('res', this.rowListAllSchoolAdmin);
         
         this.cdRef.detectChanges();
       })

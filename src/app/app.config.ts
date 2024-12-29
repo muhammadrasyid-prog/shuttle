@@ -4,6 +4,8 @@ import { environment } from '../environments/environment';
 import { DatePipe } from '@angular/common';
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideLottieOptions } from 'ngx-lottie';
+import player from 'lottie-web';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,6 +13,9 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     { provide: 'apiUrl', useValue: environment.apiUrl },
     DatePipe,
-    provideAnimations()
+    provideAnimations(),
+    provideLottieOptions({
+      player: () => player,
+    }),
   ],
 };

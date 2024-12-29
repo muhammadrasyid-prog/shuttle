@@ -146,13 +146,6 @@ export class SuperadminsComponent implements OnInit, OnDestroy {
       // pinned: 'left',
       sortable: true,
     },
-    { headerName: 'User UUID', field: 'user_uuid', maxWidth: 250 },
-    {
-      headerName: 'First Name',
-      field: 'user_details.user_first_name',
-      maxWidth: 250,
-      sortable: true,
-    },
     {
       headerName: 'Last Name',
       field: 'user_details.user_last_name',

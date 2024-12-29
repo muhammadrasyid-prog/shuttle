@@ -243,6 +243,11 @@ export class SidebarComponent implements OnInit {
               path: '/admin/drivers',
             },
             {
+              name: 'Vehicle Lists',
+              icon: 'car',
+              path: '/admin/vehicles',
+            },
+            {
               name: 'Driver Assignment',
               icon: 'studentList',
               path: '/admin/driver/assignment',
