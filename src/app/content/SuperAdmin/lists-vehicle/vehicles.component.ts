@@ -106,7 +106,10 @@ export class VehiclesComponent implements OnInit {
   colHeaderListAllVehicle: ColDef<Vehicle>[] = [
     {
       headerName: 'No.',
-      valueGetter: 'node.rowIndex + 1',
+      valueGetter: (params: any) => {
+        // Hitung nomor urut berdasarkan posisi pagination
+        return (this.paginationPage - 1) * this.paginationItemsLimit + (params.node.rowIndex + 1);
+      },  
       width: 50,
       maxWidth: 70,
       pinned: 'left',
