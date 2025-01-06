@@ -494,8 +494,9 @@ export class RoutesComponent implements OnInit {
         const responseMessage = response.data?.message || 'Success.';
         this.showToast(responseMessage, 3000, Response.Success);
 
-        this.getAllRoute();
         this.isModalEditOpen = false;
+        this.getAllRoute();
+        this.cdRef.detectChanges();
       })
       .catch((error) => {
         const responseMessage =
@@ -572,7 +573,6 @@ export class RoutesComponent implements OnInit {
 
         this.getAllRoute();
         this.isModalDeleteOpen = false;
-        this.cdRef.detectChanges();
       })
       .catch((error) => {
         const responseMessage =

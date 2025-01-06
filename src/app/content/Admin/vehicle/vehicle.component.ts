@@ -415,7 +415,7 @@ export class VehicleComponent {
         vehicle_color: this.vehicle_color,
         vehicle_seats: this.vehicle_seats,
         vehicle_status: this.vehicle_status,
-        school_id: this.school_uuid,
+        school_uuid: this.school_uuid,
       };
       console.log('request', requestData);
 

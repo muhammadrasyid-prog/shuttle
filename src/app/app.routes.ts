@@ -115,10 +115,12 @@ const parentChildrenRoutes: Route[] = [
   {
     path: 'dashboard',
     component: DashboardParentComponent,
+    data: { breadcrumb: 'Dashboard' },
   },
   {
     path: 'profile',
     component: ProfileParentComponent,
+    data: { breadcrumb: 'Profile' },
   },
 ];
 
@@ -131,10 +133,12 @@ const driverChildrenRoutes: Route[] = [
   {
     path: 'dashboard',
     component: DashboardDriverComponent,
+    data: { breadcrumb: 'Dashboard' },
   },
   {
     path: 'profile',
     component: ProfileDriverComponent,
+    data: { breadcrumb: 'Profile' },
   },
 ];
 

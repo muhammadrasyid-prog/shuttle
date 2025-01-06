@@ -249,7 +249,7 @@
             required>
             <option value="" disabled selected>Choose the vehicle</option>
             <option *ngFor="let vehicle of rowListAllVehicle" [value]="vehicle.vehicle_uuid">
-              {{ vehicle.vehicle_name }}{{ vehicle.vehicle_uuid }}
+              {{ vehicle.vehicle_name }}
             </option>
           </select>
           <div *ngIf="vehicleIdModel.invalid && vehicleIdModel.touched"><app-required-common></app-required-common></div>
@@ -304,7 +304,7 @@
         </button>
       </div>
       <!-- Modal body -->
-      <form class="p-6" #addDriverForm="ngForm" (ngSubmit)="addDriver()">
+      <form class="p-6" #addDriverForm="ngForm" (ngSubmit)="updateDriver()">
         <h3 class="text-2xl text-gray-900 font-semibold">Edit Data Driver</h3>
         <p class="mb-4 text-gray-600">Lorem, ipsum dolor sit amet consectetur adipisicing elit.</p>
 
@@ -418,7 +418,7 @@
             required>
             <option value="" disabled selected>Choose the vehicle</option>
             <option *ngFor="let vehicle of rowListAllVehicle" [value]="vehicle.vehicle_uuid">
-              {{ vehicle.vehicle_name }}{{ vehicle.vehicle_uuid }}
+              {{ vehicle.vehicle_name }}
             </option>
           </select>
           <div *ngIf="vehicleIdModel.invalid && vehicleIdModel.touched"><app-required-common></app-required-common></div>

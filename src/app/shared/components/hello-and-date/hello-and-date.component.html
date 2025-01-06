@@ -14,7 +14,7 @@
       <ng-lottie [options]="options" (animationCreated)="animationCreated($event)" /> 
     </div>
   </div>
-  <div class="flex items-center justify-center w-full">
+  <div class="flex flex-col items-center justify-center w-full">
     <div class="card">
       <div class="numbers">
         <span class="number"></span>
@@ -31,13 +31,24 @@
         <span class="number"></span>
       </div>
       <div class="needles">
-        <span class="h"></span>
-        <span class="m"></span>
-        <span class="s"></span>
+        <span class="h" [style.transform]="hourHandRotation"></span>
+        <span class="m" [style.transform]="minuteHandRotation"></span>
+        <span class="s" [style.transform]="secondHandRotation"></span>
         <span class="center"></span>
       </div>
       <div class="pie"></div>
     </div>
-    
+    <div class="mt-4 text-center">
+      <div class="text-2xl font-bold mb-1">
+        {{ digitalTime }}
+      </div>
+      <div class="text-lg">
+        {{ dateInfo }}
+      </div>
+      <div class="mt-2 text-sm text-gray-600">
+        {{ timezone }}
+      </div>
+    </div>
   </div>
+
 </div>

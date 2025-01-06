@@ -479,8 +479,8 @@ export class SchoolAdminDriversComponent implements OnInit {
           this.email = editData.user_email || '';
           this.phone = editData?.user_details?.user_phone || '';
           this.address = editData?.user_details?.user_address || '';
-          this.license_number = editData.license_number || '';
-          this.vehicle_uuid = editData?.user_details?.vehicle?.vehicle_uuid || '';
+          this.license_number = editData.user_details?.license_number || '';
+          this.vehicle_uuid = editData?.user_details?.vehicle_uuid || '';
         } else {
           console.error('Data tidak ditemukan:', response);
           console.log('Response Data:', response.data);
