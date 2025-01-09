@@ -1,0 +1,146 @@
+<div class="max-w-screen-lg mx-auto p-5">
+    <div class="grid grid-cols-1 md:grid-cols-12 md:border">
+        <div class="bg-gray-900 md:col-span-4 p-10 text-white hidden md:block">
+            <p class="mt-4 text-sm leading-7 font-regular uppercase">
+                Report
+            </p>
+            <h3 class="text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight">
+                Incident <span class="text-indigo-600">Report</span>
+            </h3>
+            <p class="mt-4 leading-7 text-gray-200">
+                This form is intended to help you report any incidents that occurred during your trip. Please provide
+                detailed information to ensure we can assist you effectively.
+            </p>
+
+        </div>
+        <form class="md:col-span-8 md:p-10">
+            <div class="flex items-center justify-center">
+                <h1 class="mb-3 block text-2xl font-black text-[#07074D]">Report Incident</h1>
+            </div>
+            <div class="relative mb-5">
+                <!-- Dropdown Button -->
+                <label for="category" class="mb-3 block text-base font-medium text-[#07074D]">Category</label>
+                <button type="button"
+                    class="w-full px-4 py-3 flex items-center justify-between bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none transition-colors"
+                    (click)="toggleDropdown()">
+                    <span class="font-medium text-gray-800">{{actionType}}</span>
+                    <svg class="w-5 h-5 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+
+                <!-- Dropdown Content -->
+                <div *ngIf="isDropdownOpen"
+                    class="absolute mt-2 w-full bg-white border border-gray-300 rounded-md shadow-lg z-10 divide-y divide-gray-200">
+                    <!-- Mechanical Issue -->
+                    <button type="button"
+                        class="w-full px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 transition-colors"
+                        (click)="handleAction('mechanicalIssue')">
+                        <div
+                            class="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-medium text-gray-800">Kendala Kendaraan</p>
+                            <p class="text-sm text-gray-500">Ban bocor, mesin trouble</p>
+                        </div>
+                    </button>
+
+                    <!-- Accident -->
+                    <button type="button"
+                        class="w-full px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 transition-colors"
+                        (click)="handleAction('accident')">
+                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-red-100 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-medium text-gray-800">Kecelakaan</p>
+                            <p class="text-sm text-gray-500">Laporkan kejadian darurat</p>
+                        </div>
+                    </button>
+
+                    <!-- Health Emergency -->
+                    <button type="button"
+                        class="w-full px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 transition-colors"
+                        (click)="handleAction('healthEmergency')">
+                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-medium text-gray-800">Masalah Kesehatan</p>
+                            <p class="text-sm text-gray-500">Kondisi darurat kesehatan</p>
+                        </div>
+                    </button>
+
+                    <!-- Other Issues -->
+                    <button type="button"
+                        class="w-full px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 transition-colors"
+                        (click)="handleAction('otherIssues')">
+                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="text-left">
+                            <p class="font-medium text-gray-800">Kendala Lainnya</p>
+                            <p class="text-sm text-gray-500">Masalah lain yang mendesak</p>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Input Text for "Other Issues" -->
+                <div *ngIf="showOtherIssuesInput" class="mt-3">
+                    <label for="otherIssues" class="block text-sm font-medium text-gray-700">Description Issue</label>
+                    <input type="text" id="otherIssues" [(ngModel)]="otherIssueText"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        placeholder="Description of Issue" />
+                </div>
+            </div>
+
+
+
+            <div class="mb-5">
+                <label for="message" class="mb-3 block text-base font-medium text-[#07074D]">Description</label>
+                <textarea id="message" name="message" placeholder="Description issue" maxlength="300"
+                    class="border border-gray-400 p-2 w-full rounded-lg focus:outline-none focus:border-blue-400"
+                    rows="5"></textarea>
+            </div>
+
+            <div class="mb-5">
+                <label for="address" class=" block text-base font-medium text-[#07074D]">
+                    Address
+                </label>
+                <p class="mb-3 block text-sm text-[#07074D]">location of the incident</p>
+                <input type="text" name="name" id="name" placeholder="Address"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </div>
+
+            <div class="mb-5">
+                <label for="image" class="mb-3 block text-base font-medium text-[#07074D]">Image</label>
+                <!-- <input type="file" id="image" name="image" accept="image/*" class="w-full"> -->
+                <input type="file" (change)="onFileSelected($event)" />
+                <br>
+                <img class="max-h-40" *ngIf="imageUrl" [src]="imageUrl" alt="Selected Image" />
+            </div>
+
+            <div>
+                <button
+                    class="hover:shadow-form w-full rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none">
+                    Submit Report
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>

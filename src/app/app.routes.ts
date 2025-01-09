@@ -22,6 +22,10 @@ import { ProfileDriverComponent } from './content/Driver/profile/profile.compone
 import { SchoolAdminDriversComponent } from './content/Admin/drivers/drivers.component';
 import { RoutesComponent } from './content/Admin/routes/routes.component';
 import { VehicleComponent } from './content/Admin/vehicle/vehicle.component';
+import { RouteManagementComponent } from './content/Driver/route-management/route-management.component';
+import { ShuttleHistoryComponent } from './content/Driver/shuttle-history/shuttle-history.component';
+import { TripReportComponent } from './content/Driver/trip-report/trip-report.component';
+import { AbsenceComponent } from './content/Driver/absence/absence.component';
 
 const superAdminChildrenRoutes: Route[] = [
   {
@@ -134,6 +138,26 @@ const driverChildrenRoutes: Route[] = [
     path: 'dashboard',
     component: DashboardDriverComponent,
     data: { breadcrumb: 'Dashboard' },
+  },
+  {
+    path: 'shuttle',
+    component: RouteManagementComponent,
+    data: { breadcrumb: 'Shuttle Pick Up' },
+  },
+  {
+    path: 'shuttle-history',
+    component: ShuttleHistoryComponent,
+    data: { breadcrumb: 'Shuttle History' },
+  },
+  {
+    path: 'trip-report',
+    component: TripReportComponent,
+    data: { breadcrumb: 'Report' },
+  },
+  {
+    path: 'absence',
+    component: AbsenceComponent,
+    data: { breadcrumb: 'Request Absence' },
   },
   {
     path: 'profile',

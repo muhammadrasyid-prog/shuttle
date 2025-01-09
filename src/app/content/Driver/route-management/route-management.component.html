@@ -1,0 +1,269 @@
+<div>
+
+  <div id="map" class="relative my-5 border shadow">
+    <div *ngIf="isLoading"
+      class="absolute top-0 left-0 w-full h-full flex items-center justify-center rounded-lg bg-white z-[9999]">
+      <div class="ui-loader rounded-lg loader-blk">
+        <svg viewBox="22 22 44 44" class="multiColor-loader">
+          <circle cx="44" cy="44" r="20.2" fill="none" stroke-width="3.6" class="loader-circle loader-circle-animation">
+          </circle>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <p class="text-xs text-red-500 py-1 ">*Refresh if the map doesn't appear.</p>
+
+  <br>
+  <div class="flex items-center justify-between mb-1">
+    <div class="text-xl font-semibold">List of Students who must be picked up</div>
+    <div>Sort by <span class="bg-gray-700 text-white px-2 py-1  rounded-full">nearest</span></div>
+  </div>
+
+  <hr>
+  <br>
+  <div class="flex items-center justify-between gap-x-6 mt-1 mb-4 px-5 py-3 rounded-lg bg-gray-50 shadow"
+    *ngFor="let siswa of rowContohLokasiAnak">
+    <div class="w-full">
+      <div class="md:flex items-center justify-between my-2">
+        <div>
+          <!-- Nama Siswa -->
+          <h1 class="text-2xl font-semibold text-gray-800">
+            {{ siswa.student_first_name }} {{ siswa.student_last_name }}
+          </h1>
+
+          <!-- Nama Sekolah -->
+          <div class="flex items-center gap-x-1 text-sm text-gray-500 mt-1 italic">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" fill="red">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path
+                  d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+              </svg>
+            </div>
+            <p>{{ siswa.school_name }}</p>
+          </div>
+
+          <!-- Alamat -->
+          <p class="text-sm text-gray-600 mt-1">
+            {{ siswa.student_address }}
+          </p>
+
+          <!-- Status dan Distance -->
+          <div class="mt-3 space-y-1">
+            <p class="text-sm">
+              <span class="font-medium text-gray-700">Status: </span>
+              <span class="text-gray-600">
+                <!-- Conditional status display -->
+                <ng-container *ngIf="siswa.shuttle_status.String === 'waiting_to_be_taken_to_school'">
+                  <span class="text-yellow-500">Waiting to be taken to school</span>
+                </ng-container>
+
+                <ng-container *ngIf="siswa.shuttle_status.String === 'going_to_school'">
+                  <span class="text-yellow-500">Going to school</span>
+                </ng-container>
+
+                <ng-container *ngIf="siswa.shuttle_status.String === 'at_school'">
+                  <span class="text-green-500">At school</span>
+                </ng-container>
+
+                <ng-container *ngIf="siswa.shuttle_status.String === 'waiting_to_be_taken_to_home'">
+                  <span class="text-blue-500">Waiting to be taken home</span>
+                </ng-container>
+
+                <ng-container *ngIf="siswa.shuttle_status.String === 'going_to_home'">
+                  <span class="text-blue-500">Going to home</span>
+                </ng-container>
+
+                <ng-container *ngIf="siswa.shuttle_status.String === 'home'">
+                  <span class="text-gray-500">At home</span>
+                </ng-container>
+
+                <!-- Default message for unknown status -->
+                <ng-container *ngIf="siswa.shuttle_status.String === null || !siswa.shuttle_status.String">
+                  <span class="text-gray-400">Status unavailable</span>
+                </ng-container>
+
+              </span>
+            </p>
+            <p class="text-sm">
+              <span class="font-medium text-gray-700">Distance:</span>
+              <span class="text-gray-600">
+                {{ siswa.distance != null ? siswa.distance + ' KM from you' : 'Calculating distance...' }}
+              </span>
+            </p>
+          </div>
+        </div>
+
+
+        <button (click)="jemput(siswa.student_uuid)" class="px-4 py-1 my-1 rounded-full bg-black text-white"
+          *ngIf="siswa.shuttle_status.String === ''">
+          Start Pickup
+        </button>
+        <button (click)="update(siswa.shuttle_uuid.String, 'going_to_school')"
+          class="px-4 py-1 my-1 rounded-full bg-black text-white"
+          *ngIf="siswa.shuttle_status.String === 'waiting_to_be_taken_to_school'">
+          Going to School
+        </button>
+        <button (click)="update(siswa.shuttle_uuid.String, 'at_school')"
+          class="px-4 py-1 my-1 rounded-full bg-black text-white"
+          *ngIf="siswa.shuttle_status.String === 'going_to_school'">
+          Arrived to School
+        </button>
+        <button (click)="update(siswa.shuttle_uuid.String, 'waiting_to_be_taken_to_home')"
+          class="px-4 py-1 my-1 rounded-full bg-black text-white" *ngIf="siswa.shuttle_status.String === 'at_school'">
+          Start Pickup Home
+        </button>
+        <button (click)="update(siswa.shuttle_uuid.String, 'going_to_home')"
+          class="px-4 py-1 my-1 rounded-full bg-black text-white"
+          *ngIf="siswa.shuttle_status.String === 'waiting_to_be_taken_to_home'">
+          Going Home
+        </button>
+        <button (click)="update(siswa.shuttle_uuid.String, 'home')" class="px-4 py-1 rounded-full bg-black text-white"
+          *ngIf="siswa.shuttle_status.String === 'going_to_home'">
+          Arrived Home
+        </button>
+      </div>
+
+      <hr>
+
+      <!-- Details -->
+      <details class="w-full group mt-4">
+        <summary
+          class="flex justify-between items-center font-medium cursor-pointer list-none text-blue-600 hover:underline select-none">
+          <span>Show Details</span>
+          <span class="transition group-open:rotate-180">
+            <svg fill="none" height="24" shape-rendering="geometricPrecision" stroke="currentColor"
+              stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" viewBox="0 0 24 24" width="24">
+              <path d="M6 9l6 6 6-6"></path>
+            </svg>
+          </span>
+        </summary>
+        <div class="text-neutral-600 mt-3 group-open:animate-fadeIn  px-2">
+          <!-- Menampilkan detail yang relevan tanpa repetisi -->
+          <p class="text-sm">
+            <span class="font-medium text-gray-700">Shuttle ID : </span>
+            <span class="text-gray-600">{{ siswa.shuttle_uuid.String || 'N/A' }}</span>
+          </p>
+          <p class="text-sm mb-2">
+            <span class="font-medium text-gray-700">Pickup Point : </span>
+            <a href="https://www.google.com/maps?q={{ siswa.student_pickup_point.latitude }},{{ siswa.student_pickup_point.longitude }}"
+              target="_blank" class="text-blue-400 underline cursor-pointer flex items-center">
+              {{ siswa.student_pickup_point.latitude }}, {{ siswa.student_pickup_point.longitude }}
+            </a>
+          </p>
+
+          <!-- School Point with Icon -->
+          <p class="text-sm mb-2">
+            <span class="font-medium text-gray-700">School Point : </span>
+            <a href="https://www.google.com/maps?q={{ siswa.school_point.latitude }}, {{ siswa.school_point.longitude }}"
+              target="_blank" class="text-blue-400 underline cursor-pointer flex items-center">
+              {{ siswa.school_point.latitude }}, {{ siswa.school_point.longitude }}
+            </a>
+          </p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- Bottom-Right Corner -->
+  <!-- <div class="fixed bottom-4 right-4 p-4">
+    <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full shadow-lg">
+      Feedback
+    </button>
+  </div> -->
+
+  <!-- Emergency FAB Container -->
+  <div class="fixed bottom-1 right-4 md:z-50 z-10">
+    <div class="flex items-center space-x-2">
+      <!-- Tooltip yang sekarang menjadi kalimat tetap terlihat di sebelah kiri -->
+      <div class="text-white bg-red-600 text-xs font-semibold py-1 px-3 rounded-tl-full rounded-bl-full md:text-sm md:py-2 md:px-3 md:pr-5 md:translate-x-5 translate-x-5">
+        Report trip issue
+      </div>      
+
+      <!-- Main FAB Button -->
+      <button onclick="document.getElementById('fabMenu').classList.toggle('hidden')"
+        class="md:h-14 md:w-14 h-12 w-12 rounded-full bg-red-600 text-white shadow-lg hover:bg-red-700 flex items-center justify-center transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+        <svg class="md:w-8 md:h-8 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Quick Action Menu -->
+    <div id="fabMenu"
+      class="hidden absolute bottom-16 right-0 mb-4 w-64 rounded-lg bg-white shadow-xl border border-gray-200 overflow-hidden">
+      <!-- Menu Header -->
+      <div class="bg-red-50 p-4 border-b border-gray-200">
+        <h3 class="text-red-800 font-medium">Report Incident</h3>
+      </div>
+
+      <!-- Quick Actions List -->
+      <div class="divide-y divide-gray-200">
+        <!-- Mechanical Issue -->
+        <a routerLink="/driver/trip-report" routerLinkActive="router-link-active"  class="w-full px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 transition-colors">
+          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-orange-100 flex items-center justify-center">
+            <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="text-left">
+            <p class="font-medium text-gray-800">Incident Vehicle</p>
+            <p class="text-sm text-gray-500">Flat tires, Engine problems and more</p>
+          </div>
+        </a>
+
+        <!-- Accident -->
+        <button class="w-full px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 transition-colors">
+          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-red-100 flex items-center justify-center">
+            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <div class="text-left">
+            <p class="font-medium text-gray-800">Accident</p>
+            <p class="text-sm text-gray-500">
+              Report emergency incidents</p>
+          </div>
+        </button>
+
+        <!-- Health Emergency -->
+        <button class="w-full px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 transition-colors">
+          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="text-left">
+            <p class="font-medium text-gray-800">Health Problems</p>
+            <p class="text-sm text-gray-500">Health Emergency</p>
+          </div>
+        </button>
+
+        <!-- Other Issues -->
+        <button class="w-full px-4 py-3 flex items-center space-x-3 hover:bg-gray-50 transition-colors">
+          <div class="flex-shrink-0 h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center">
+            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div class="text-left">
+            <p class="font-medium text-gray-800">Other Incidents</p>
+            <p class="text-sm text-gray-500">Another annoying problem</p>
+          </div>
+        </button>
+      </div>
+
+      <!-- Emergency Contact -->
+      <a href="tel:112" class="block w-full bg-red-50 px-4 py-3 text-center">
+        <span class="text-sm font-medium text-red-700">Emergency? Call 111</span>
+      </a>
+    </div>
+  </div>
+
+</div>
+<!-- </div> -->

@@ -93,7 +93,7 @@ export class VehiclesComponent implements OnInit {
     ensureDomOrder: true,
     enableAccessibility: false,
     pagination: true,
-    paginationPageSize: 10,
+    // paginationPageSize: 10,
     paginationPageSizeSelector: [10, 20, 50, 100],
     suppressPaginationPanel: true,
     suppressMovable: true,
@@ -108,8 +108,11 @@ export class VehiclesComponent implements OnInit {
       headerName: 'No.',
       valueGetter: (params: any) => {
         // Hitung nomor urut berdasarkan posisi pagination
-        return (this.paginationPage - 1) * this.paginationItemsLimit + (params.node.rowIndex + 1);
-      },  
+        return (
+          (this.paginationPage - 1) * this.paginationItemsLimit +
+          (params.node.rowIndex + 1)
+        );
+      },
       width: 50,
       maxWidth: 70,
       pinned: 'left',
@@ -205,51 +208,13 @@ export class VehiclesComponent implements OnInit {
     sortable: false,
   };
 
-   // Replace the simple pages array with this function
-   getVisiblePages(): (number | string)[] {
-    const visiblePages: (number | string)[] = [];
-    const totalPages = this.paginationTotalPage;
-    const currentPage = this.paginationPage;
-    
-    // Always show first page
-    visiblePages.push(1);
-    
-    if (totalPages <= 7) {
-      // If total pages is 7 or less, show all pages
-      for (let i = 2; i < totalPages; i++) {
-        visiblePages.push(i);
-      }
-    } else {
-      // Handle cases with more than 7 pages
-      if (currentPage <= 3) {
-        // Near the start
-        visiblePages.push(2, 3, 4, '...', totalPages - 1);
-      } else if (currentPage >= totalPages - 2) {
-        // Near the end
-        visiblePages.push('...', totalPages - 3, totalPages - 2, totalPages - 1);
-      } else {
-        // Middle - show current page, 1 page before and 1 page after
-        visiblePages.push(
-          '...',
-          currentPage - 1,
-          currentPage,
-          currentPage + 1,
-          '...'
-        );
-      }
-    }
-    
-    // Always show last page if more than 1 page exists
-    if (totalPages > 1) {
-      visiblePages.push(totalPages);
-    }
-    
-    return visiblePages;
-  }
-
-   // Update existing functions
-   goToPage(page: number | string) {
-    if (typeof page === 'number' && page >= 1 && page <= this.paginationTotalPage) {
+  // Update existing functions
+  goToPage(page: number | string) {
+    if (
+      typeof page === 'number' &&
+      page >= 1 &&
+      page <= this.paginationTotalPage
+    ) {
       this.paginationPage = page;
       this.getAllVehicle();
     }
@@ -274,6 +239,53 @@ export class VehiclesComponent implements OnInit {
     this.paginationItemsLimit = +target.value;
     this.paginationPage = 1;
     this.getAllVehicle();
+  }
+
+  // Replace the simple pages array with this function
+  getVisiblePages(): (number | string)[] {
+    const visiblePages: (number | string)[] = [];
+    const totalPages = this.paginationTotalPage;
+    const currentPage = this.paginationPage;
+
+    // Always show first page
+    visiblePages.push(1);
+
+    if (totalPages <= 7) {
+      // If total pages is 7 or less, show all pages
+      for (let i = 2; i < totalPages; i++) {
+        visiblePages.push(i);
+      }
+    } else {
+      // Handle cases with more than 7 pages
+      if (currentPage <= 3) {
+        // Near the start
+        visiblePages.push(2, 3, 4, '...', totalPages - 1);
+      } else if (currentPage >= totalPages - 2) {
+        // Near the end
+        visiblePages.push(
+          '...',
+          totalPages - 3,
+          totalPages - 2,
+          totalPages - 1,
+        );
+      } else {
+        // Middle - show current page, 1 page before and 1 page after
+        visiblePages.push(
+          '...',
+          currentPage - 1,
+          currentPage,
+          currentPage + 1,
+          '...',
+        );
+      }
+    }
+
+    // Always show last page if more than 1 page exists
+    if (totalPages > 1) {
+      visiblePages.push(totalPages);
+    }
+
+    return visiblePages;
   }
 
   onSortChanged(event: any) {

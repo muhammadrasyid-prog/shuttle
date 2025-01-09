@@ -1,0 +1,96 @@
+<div class="max-w-screen-lg mx-auto p-5">
+    <div class="grid grid-cols-1 md:grid-cols-12 md:border">
+        <div class="bg-gray-900 md:col-span-4 p-10 text-white hidden md:block">
+            <p class="mt-4 text-sm leading-7 font-regular uppercase">
+                Report
+            </p>
+            <h3 class="text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight">
+                Driver <span class="text-indigo-600">Request</span>
+            </h3>
+            <p class="mt-4 leading-7 text-gray-200">
+                This form is intended to report a driver's request for permission to not complete their trip task. 
+                Please provide clear and detailed information to help us process your request effectively.
+            </p>            
+
+        </div>
+        <form [formGroup]="leaveForm" class="md:col-span-8 md:p-10">
+            <div class="flex items-center justify-center">
+                <h1 class="mb-3 block text-2xl font-black text-[#07074D]">Driver Request</h1>
+            </div>
+            <div class="relative mb-5">
+                <label for="driverID" class="mb-3 block text-base font-medium text-[#07074D]">
+                    Driver ID
+                </label>
+                <input type="text" formControlName="driverID" id="driverID" placeholder="Enter your Driver ID"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </div>
+            
+            <div class="mb-5">
+                <label for="name" class="mb-3 block text-base font-medium text-[#07074D]">
+                    Full Name
+                </label>
+                <input type="text" formControlName="name" id="name" placeholder="Enter your full name"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </div>
+
+            <div class="mb-5">
+                <label for="phone" class="mb-3 block text-base font-medium text-[#07074D]">
+                    Phone Number
+                </label>
+                <input type="text" formControlName="phone" id="phone" placeholder="Enter your phone number"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+            </div>
+
+            <!-- Leave Duration -->
+            <div class="-mx-3 flex flex-wrap">
+                <div class="w-full px-3 sm:w-1/2">
+                    <div class="mb-5">
+                        <label for="startDate" class="mb-3 block text-base font-medium text-[#07074D]">
+                            Start Date
+                        </label>
+                        <input type="date" formControlName="startDate" id="startDate"
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+                    </div>
+                </div>
+                <div class="w-full px-3 sm:w-1/2">
+                    <div class="mb-5">
+                        <label for="endDate" class="mb-3 block text-base font-medium text-[#07074D]">
+                            End Date
+                        </label>
+                        <input type="date" formControlName="endDate" id="endDate"
+                            class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leave Duration Display -->
+            <div class="mb-5">
+                <label class="mb-3 block text-base font-medium text-[#07074D]">
+                    Total Leave Duration
+                </label>
+                <div class="w-full rounded-md border border-[#e0e0e0] bg-gray-50 py-3 px-6 text-base font-medium text-[#6B7280]">
+                    {{ totalDays }} day
+                </div>
+            </div>
+
+            <!-- Reason for Leave -->
+            <div class="mb-5">
+                <label for="reason" class="mb-3 block text-base font-medium text-[#07074D]">
+                    Reason for Leave
+                </label>
+                <textarea formControlName="reason" id="reason" rows="4" placeholder="Please provide your reason for leave"
+                    class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit"
+                    [disabled]="!leaveForm.valid"
+                    class="hover:shadow-form w-full rounded-md bg-[#6A64F1] py-3 px-8 text-center text-base font-semibold text-white outline-none disabled:bg-gray-400">
+                    Submit Leave Request
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>

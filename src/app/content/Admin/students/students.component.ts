@@ -580,6 +580,8 @@ export class StudentsComponent implements OnInit {
         // Buka modal
         this.isModalDetailOpen = true;
         this.cdRef.detectChanges();  // Pastikan perubahan terdeteksi di view
+
+        console.log('detail', response);
       })
       .catch((error) => {
         Swal.fire({
