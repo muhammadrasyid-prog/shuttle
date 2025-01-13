@@ -343,46 +343,41 @@ export class SidebarComponent implements OnInit {
     this.isModalDeleteOpen = false
   }
 
-  performLogout() {
-    const token = this.cookieService.get('accessToken');
-    axios
-      .post(
+  async performLogout() {
+    try {
+      const token = this.cookieService.get('accessToken');
+      if (!token) {
+        this.handleLogoutSuccess();
+        return;
+      }
+  
+      await axios.post(
         `${this.apiUrl}/api/logout`,
         {},
         {
           headers: {
-            Authorization: `${token}`,
+            Authorization: `Bearer ${token}`,
           },
-        },
-      )
-      .then((response) => {
-        console.log(response.data.message);
-        Swal.fire({
-          title: 'Success',
-          text: 'Logout Berhasil',
-          icon: 'success',
-          timer: 1500,
-          showConfirmButton: false,
-        });
-        this.router.navigateByUrl('/login');
-
-        this.cookieService.deleteAll();
-        this.profileService.resetProfileData();
-      })
-      .catch((error) => {
-        if (error.response.status === 401) {
-          Swal.fire({
-            title: 'Error',
-            text: error.response.data.message,
-            icon: 'error',
-          });
-        } else {
-          Swal.fire({
-            title: 'Error',
-            text: error.response.data.message,
-            icon: 'error',
-          });
         }
-      });
+      );
+  
+      this.handleLogoutSuccess();
+    } catch (error) {
+      // Even if logout API fails, we should still clear local data
+      this.handleLogoutSuccess();
+    }
+  }
+  
+  private handleLogoutSuccess(): void {
+    this.profileService.resetProfileData(); // This will clear cookies and profile data
+    this.router.navigate(['/login']);
+    
+    Swal.fire({
+      title: 'Success',
+      text: 'Logout Berhasil',
+      icon: 'success',
+      timer: 1500,
+      showConfirmButton: false,
+    });
   }
 }

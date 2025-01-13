@@ -13,41 +13,40 @@ export class ProfileService {
   constructor(
     @Inject('apiUrl') private apiUrl: string,
     private cookieService: CookieService,
-  ) {
-    this.apiUrl = apiUrl;
-  }
+  ) {}
 
-  async fetchProfileData(roload: boolean = false): Promise<any> {
-    console.log('Memeriksa data profil...');
-
-    if (!roload && this.profileData.getValue() !== null) {
-      console.log(
-        'Data sudah ada di BehaviorSubject, tidak perlu request lagi.',
-      );
-
-      return this.profileData.getValue();
-    }
-    console.log('Data belum ada, melakukan request ke API...');
-
-    const token = this.cookieService.get('accessToken');
+  async fetchProfileData(reload: boolean = false): Promise<any> {
     try {
+      if (!reload && this.profileData.getValue() !== null) {
+        return this.profileData.getValue();
+      }
+
+      const token = this.cookieService.get('accessToken');
+      if (!token) {
+        throw new Error('No access token found');
+      }
+
       const response = await axios.get<any>(`${this.apiUrl}/api/my/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log('response', response.data.data);
-      
-      this.profileData.next(response.data.data); // Update dengan data baru
-      return response.data.data;
+
+      if (response.data?.data) {
+        this.profileData.next(response.data.data);
+        return response.data.data;
+      } else {
+        throw new Error('Invalid profile data format');
+      }
     } catch (error) {
-      console.error('Error fetching profile data with Axios:', error);
+      this.resetProfileData(); // Reset data jika terjadi error
       throw error;
     }
   }
 
   resetProfileData(): void {
-    this.profileData.next(null); // Reset data ke null
-    console.log('BehaviorSubject di-reset!');
+    this.profileData.next(null);
+    this.cookieService.delete('accessToken', '/');
+    this.cookieService.delete('refreshToken', '/');
   }
 }
